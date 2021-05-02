@@ -1,0 +1,9 @@
+.idea/**
+.sessions/**
+coverage/**
+node_modules/**
+public/**
+flow-typed/**
+lib/**
+database/**
+src/models/**
