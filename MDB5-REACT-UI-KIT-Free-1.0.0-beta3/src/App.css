@@ -1,0 +1,16 @@
+#intro {
+    /* background-image: url("https://pbs.twimg.com/media/D62MFvMXYAYxUPx.jpg:large"); */
+    background-image: url("https://2ch.hk/fag/src/13456455/16147873482900.jpg");
+    height: 100vh;
+  }
+
+  /* Height for devices larger than 576px */
+  @media (min-width: 992px) {
+    #intro {
+      margin-top: -58.59px;
+    }
+  }
+
+  .navbar .nav-link {
+    color: #fff !important;
+  }
