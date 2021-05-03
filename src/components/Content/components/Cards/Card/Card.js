@@ -2,7 +2,7 @@ import React from 'react';
 
 const Card = ({title, text, imgSrc}) => {
     return (
-        <div className="card">
+        <div className="card" style={{height: '100%'}}>
             <div className="bg-image hover-overlay ripple">
                 <img src={imgSrc} className="img-fluid"/>
                 <a href="#!">
