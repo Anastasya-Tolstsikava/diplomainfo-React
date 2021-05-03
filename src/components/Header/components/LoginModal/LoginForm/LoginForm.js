@@ -1,6 +1,34 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const LoginForm = () => {
+
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const [token, setToken] = useState(null);
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        // console.log('Была нажата ссылка.');
+        // const data = axios.post('localhost:8080/diplomainfo/login', {
+        //     headers: { 'Content-Type': 'application/json' },
+        //     data: { login, password }
+        // });
+        // setToken(data);
+        axios.post('http://localhost:8080/diplomainfo/login', 
+            {
+                email: 'Irina_Borisova@gmail.com',
+                password: '23456789'
+            }
+        )
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     return (
         <form>
             <div className="text-center mb-3">
@@ -8,7 +36,7 @@ const LoginForm = () => {
             </div>
 
             <div className="form-outline mb-4">
-                <input type="email" id="loginName" name="login" className="form-control"/>
+                <input type="email" id="loginName" name="login" className="form-control" value={login} onChange={(e) => setLogin(e.target.value)} />
                 <label className="form-label" htmlFor="loginName">Email or username</label>
             </div>
 
@@ -18,11 +46,13 @@ const LoginForm = () => {
                     id="loginPassword"
                     name="password"
                     className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <label className="form-label" htmlFor="loginPassword">Password</label>
             </div>
 
-            <button type="submit" className="btn btn-primary btn-block mb-4">
+            <button type="submit" className="btn btn-primary btn-block mb-4" onClick={handleClick}>
                 Sign in
             </button>
 
