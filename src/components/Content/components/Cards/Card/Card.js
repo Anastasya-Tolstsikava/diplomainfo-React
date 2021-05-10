@@ -7,8 +7,7 @@ const Card = ({title, text, imgSrc}) => {
     const toggleFilesModal = () => setShowFilesModal(!showFilesModal);
 
     return (
-        <div>
-        <div className="card">
+        <div className="card" style={{height: '100%'}}>
             <div className="bg-image hover-overlay ripple">
                 <img src={imgSrc} className="img-fluid"/>
                 <a href="#!">
