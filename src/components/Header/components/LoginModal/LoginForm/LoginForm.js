@@ -5,7 +5,7 @@ const LoginForm = () => {
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState("");
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -17,12 +17,13 @@ const LoginForm = () => {
         // setToken(data);
         axios.post('http://localhost:8080/diplomainfo/login', 
             {
-                email: 'Irina_Borisova@gmail.com',
-                password: '23456789'
+                email: login,
+                password: password
             }
         )
             .then(function (response) {
-                console.log(response);
+                console.log(token);
+                setToken(response.data.value)
             })
             .catch(function (error) {
                 console.log(error);
