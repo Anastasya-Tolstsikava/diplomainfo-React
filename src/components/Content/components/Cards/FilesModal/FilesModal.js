@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState}from 'react';
 import {
     MDBBtn,
     MDBModal,
@@ -11,21 +11,36 @@ import {
 } from 'mdb-react-ui-kit';
 import UploadButton from './UploadButton/UploadButton';
 import ListGroup from './ListGroup/ListGroup';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from "@fullcalendar/interaction";
 
-const FilesModal = ({showFilesModal, setShowFilesModal, toggleFilesModal,fileCategory}) => {
+const FilesModal = ({ showFilesModal, setShowFilesModal, toggleFilesModal, fileCategory }) => {
+    const [initialView, setInitialView] = useState("dayGridMonth");
+    //dayGridMonth
     return (
         <MDBModal show={showFilesModal} getOpenState={(e) => setShowFilesModal(e)} tabIndex="-1">
             <MDBModalDialog>
                 <MDBModalContent>
                     <MDBModalHeader>
                         <MDBModalTitle>Файлы для скачивания</MDBModalTitle>
-                        <MDBBtn className="btn-close" onClick={toggleFilesModal} color="none"/>
+                        <MDBBtn className="btn-close" onClick={toggleFilesModal} color="none" />
                     </MDBModalHeader>
                     <MDBModalBody>
-                        <ListGroup/>
-                       <UploadButton fileCategory={fileCategory}/>
+                        {fileCategory === "calendar" ? <div style={{ minHeight: '400px' }}><FullCalendar
+                            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+                            initialView={initialView}
+                            locale='ru'
+                            //dateClick={handleDateClick}
+                            events={[
+                                { title: 'event 1', date: '2021-05-01' },
+                                { title: 'event 2', date: '2021-05-02' }
+                            ]} /></div> : <></>}
+                            {fileCategory === 'documents' ? <ListGroup fileCategory={fileCategory} /> : <></>}
+                        {fileCategory === 'documents' ? <UploadButton fileCategory={fileCategory} /> : <></>}
                     </MDBModalBody>
-                    <MDBModalFooter/>
+                    <MDBModalFooter />
                 </MDBModalContent>
             </MDBModalDialog>
         </MDBModal>
