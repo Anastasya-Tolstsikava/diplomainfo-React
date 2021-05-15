@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const UploadButton = () => {
+const UploadButton = ({fileCategory}) => {
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -9,12 +9,13 @@ const UploadButton = () => {
         let formData = new FormData();
         let uplfile = document.querySelector('#file');
         formData.append("file", uplfile.files[0]);
-        formData.append("category","documents");
+        formData.append("category", fileCategory);
         console.log(formData)
-        axios.post('http://localhost:8080/diplomainfo/files',formData,
+        axios.post('http://localhost:8080/diplomainfo/files', formData,
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : null
                 }
             }
         )

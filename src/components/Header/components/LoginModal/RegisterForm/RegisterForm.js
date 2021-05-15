@@ -18,7 +18,11 @@ const RegisterForm = () => {
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
-                        password: password
+                        password: password,
+                        headers: {
+                            'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : null
+                        }
+
                     }
                 )
                     .then(function (response) {
@@ -30,6 +34,9 @@ const RegisterForm = () => {
             } else {
                 axios.post('http://localhost:8080/diplomainfo/students',
                     {
+                        headers: {
+                            'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : null
+                        },
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
@@ -49,41 +56,29 @@ const RegisterForm = () => {
     return (
         <form>
             <div className="text-center mb-3">
-                <p>Sign up:</p>
+                <p>Регистрация:</p>
             </div>
 
-            <div className="form-outline mb-4">
-                <input type="text" id="registerName" className="form-control" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                <label className="form-label" htmlFor="registerName">First Name</label>
+            <div className="input-group mb-3">
+                <input type="text" id="registerName" name="firstName" className="form-control" placeholder="Имя" aria-label="Username" aria-describedby="basic-addon1" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </div>
 
-            <div className="form-outline mb-4">
-                <input type="text" id="registerUsername" className="form-control" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                <label className="form-label" htmlFor="registerUsername">Last Name</label>
+            <div className="input-group mb-3">
+                <input type="text" id="registerUsername" name="lastName" className="form-control" placeholder="Фамилиия" aria-label="Username" aria-describedby="basic-addon1" value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </div>
 
-            <div className="form-outline mb-4">
-                <input type="email" id="registerEmail" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <label className="form-label" htmlFor="registerEmail">Email</label>
+            <div className="input-group mb-3">
+                <input type="email" id="registerEmail" name="email" className="form-control" placeholder="Адрес электронной почты" aria-label="Username" aria-describedby="basic-addon1"  value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
 
-            <div className="form-outline mb-4">
-                <input type="password" id="registerPassword" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <label className="form-label" htmlFor="registerPassword">Password</label>
+            <div className="input-group mb-3">
+                <input type="password" id="registerPassword" name="password" className="form-control" placeholder="Пароль" aria-label="Username" aria-describedby="basic-addon1" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
 
-            <div className="form-outline mb-4">
-                <input
-                    type="password"
-                    id="registerRepeatPassword"
-                    className="form-control"
-                    value={repetedPassword} onChange={(e) => setRepetedPassword(e.target.value)}
-                />
-                <label className="form-label" htmlFor="registerRepeatPassword">
-                    Repeat
-                    password
-                </label>
+            <div className="input-group mb-3">
+                <input type="password" id="registerRepeatPassword" name="repetedPassword" className="form-control" placeholder="Повторите пароль" aria-label="Username" aria-describedby="basic-addon1" value={repetedPassword} onChange={(e) => setRepetedPassword(e.target.value)}/>
             </div>
+
             <div className="form-check d-flex justify-content-center mb-4">
                 <input
                     className="form-check-input me-2"
@@ -93,12 +88,12 @@ const RegisterForm = () => {
                     id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
-                    I'm a teacher
+                    Я преподаватель
                 </label>
             </div>
 
             <button type="submit" className="btn btn-primary btn-block mb-3" onClick={handleClick}>
-                Sign in
+                Создать аккаунт
             </button>
         </form>
     );

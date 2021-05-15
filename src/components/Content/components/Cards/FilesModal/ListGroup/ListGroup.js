@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function ListGroup() {
-    let files = []
+function ListGroup({ fileCategory }) {
+    const [files, setFiles] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             let config = {
                 params: {
-                    category: "documents"
+                    category: fileCategory
+                },
+                headers: {
+                    'Authorization': localStorage.getItem('token') ? "Bearer " + localStorage.getItem('token') : null
                 }
             }
-            const resp = await axios.get('http://localhost:8080/diplomainfo/files', config)
+
+            await axios.get('http://localhost:8080/diplomainfo/files', config)
                 .then(function (response) {
-                    console.log(response);
-                    files = response.data;
+                    setFiles(response.data);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -23,20 +26,41 @@ function ListGroup() {
         fetchData();
     }, []);
 
+    function downloadFile(e, path) {
+        e.preventDefault;
+
+        const link = document.createElement('a');
+        link.href = "http://localhost:8080/diplomainfo/files/file?fileName=" + path;
+        link.setAttribute(
+            'download', "path.txt"
+        )
+        // Append to html link element page
+        document.body.appendChild(link);
+        // Start download
+        link.click();
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+    }
+
     return (
-        <div class="list-group">
-            {Array.prototype.forEach.call(files, file => {
-                console.log(file);
-                <a href="" class="list-group-item list-group-item-action" aria-current="true">
-                    {entry.path}</a>
-            })};
-            {/* {files.forEach(function (entry) {
-                console.log(entry);
-                <a href="" class="list-group-item list-group-item-action" aria-current="true">
-                    {entry.path}</a>
-            })}; */}
+        <div>
+            <div className="list-group">
+                {files.map(file => (
+                    <>
+                        <a href="" className="list-group-item list-group-item-action" aria-current="true">
+                            {file.path}</a>
+                        <button type="button" className="btn btn-primary btn-floating" onClick={(e) => downloadFile(e, file.path)}>
+                            <i className="fas fa-download"></i>
+                        </button>
+                    </>
+                ))}
+            </div>
+
         </div>
+
     )
 }
+
+
 
 export default ListGroup;

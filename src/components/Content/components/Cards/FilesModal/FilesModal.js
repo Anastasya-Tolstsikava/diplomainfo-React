@@ -1,4 +1,4 @@
-import React ,{useState}from 'react';
+import React ,{useState, useEffect}from 'react';
 import {
     MDBBtn,
     MDBModal,
@@ -16,9 +16,10 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction";
 
-const FilesModal = ({ showFilesModal, setShowFilesModal, toggleFilesModal, fileCategory }) => {
+const FilesModal = ({ showFilesModal, setShowFilesModal, toggleFilesModal, fileCategory,userDetails }) => {
     const [initialView, setInitialView] = useState("dayGridMonth");
     //dayGridMonth
+
     return (
         <MDBModal show={showFilesModal} getOpenState={(e) => setShowFilesModal(e)} tabIndex="-1">
             <MDBModalDialog>
@@ -38,7 +39,7 @@ const FilesModal = ({ showFilesModal, setShowFilesModal, toggleFilesModal, fileC
                                 { title: 'event 2', date: '2021-05-02' }
                             ]} /></div> : <></>}
                             {fileCategory === 'documents' ? <ListGroup fileCategory={fileCategory} /> : <></>}
-                        {fileCategory === 'documents' ? <UploadButton fileCategory={fileCategory} /> : <></>}
+                        {fileCategory === 'documents' && userDetails?.authorities[0]?.authority == "ROLE_TEACHER"? <UploadButton fileCategory={fileCategory} /> : <></>}
                     </MDBModalBody>
                     <MDBModalFooter />
                 </MDBModalContent>
