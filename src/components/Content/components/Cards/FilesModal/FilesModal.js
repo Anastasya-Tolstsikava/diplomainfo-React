@@ -15,6 +15,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction";
+import './styles/files-modal.css';
 
 const FilesModal = ({ showFilesModal, setShowFilesModal, toggleFilesModal, fileCategory,userDetails }) => {
     const [initialView, setInitialView] = useState("dayGridMonth");
@@ -29,17 +30,27 @@ const FilesModal = ({ showFilesModal, setShowFilesModal, toggleFilesModal, fileC
                         <MDBBtn className="btn-close" onClick={toggleFilesModal} color="none" />
                     </MDBModalHeader>
                     <MDBModalBody>
-                        {fileCategory === "calendar" ? <div style={{ minHeight: '400px' }}><FullCalendar
-                            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-                            initialView={initialView}
-                            locale='ru'
-                            //dateClick={handleDateClick}
-                            events={[
-                                { title: 'event 1', date: '2021-05-01' },
-                                { title: 'event 2', date: '2021-05-02' }
-                            ]} /></div> : <></>}
-                            {fileCategory === 'documents' ? <ListGroup fileCategory={fileCategory} /> : <></>}
-                        {fileCategory === 'documents' && userDetails?.authorities[0]?.authority == "ROLE_TEACHER"? <UploadButton fileCategory={fileCategory} /> : <></>}
+                        {
+                            fileCategory === "calendar" &&
+                                <div className="files-modal__calendar">
+                                    <FullCalendar
+                                        plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+                                        initialView={initialView}
+                                        locale='ru'
+                                        //dateClick={handleDateClick}
+                                        events={[
+                                            { title: 'event 1', date: '2021-05-01' },
+                                            { title: 'event 2', date: '2021-05-02' }
+                                        ]}
+                                    />
+                                </div>
+                        }
+                        { fileCategory === 'documents' && <ListGroup fileCategory={fileCategory} /> }
+                        {
+                            fileCategory === 'documents' 
+                            && userDetails?.authorities[0]?.authority == "ROLE_TEACHER"
+                            && <UploadButton fileCategory={fileCategory} />
+                        }
                     </MDBModalBody>
                     <MDBModalFooter />
                 </MDBModalContent>
